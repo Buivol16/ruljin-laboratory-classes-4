@@ -1,0 +1,22 @@
+<h1><%= product.name %></h1>
+<div>
+  <%= product.description %>
+</div>
+<button onclick="deleteProduct('<%= product.name %>')">Delete</button>
+<a href="/products">Back to list</a>
+<script>
+function deleteProduct(name) {
+  if (confirm(`Delete product: ${name}?`)) {
+    fetch(`/products/${encodeURIComponent(name)}`, {
+      method: 'DELETE'
+    }).then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/products';
+        } else {
+          alert('Error: ' + (data.message || 'Could not delete.'));
+        }
+      });
+  }
+}
+</script>
